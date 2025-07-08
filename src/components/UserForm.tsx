@@ -7,6 +7,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAppContext } from "@/context/AppContext";
+import { toast } from "sonner";
 
 // Define the form schema with zod
 const formSchema = z.object({
@@ -54,7 +55,7 @@ export function UserForm() {
     
     // Show success message or redirect
     dispatch({ type: 'SET_ERROR', payload: null });
-    alert("User created successfully!");
+    toast.success("User created successfully!");
     
     // Reset the form
     form.reset();

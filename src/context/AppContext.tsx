@@ -125,10 +125,14 @@ export const AppProvider = ({ children }: AppProviderProps) => {
 
   // Save auth data to KV store when it changes
   useEffect(() => {
-    if (state.user !== savedAuth.user || state.authToken !== savedAuth.token) {
+    // We need to do a deep comparison for the user object
+    const userChanged = JSON.stringify(state.user) !== JSON.stringify(savedAuth.user);
+    const tokenChanged = state.authToken !== savedAuth.token;
+    
+    if (userChanged || tokenChanged) {
       setSavedAuth({ user: state.user, token: state.authToken });
     }
-  }, [state.user, state.authToken, savedAuth, setSavedAuth]);
+  }, [state.user, state.authToken, savedAuth.user, savedAuth.token, setSavedAuth]);
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>

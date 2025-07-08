@@ -104,3 +104,15 @@
 - The authentication flow provides a balance between security and usability
 - We've assumed users prioritize efficiency in the authentication process
 - Exceptional implementation would include intelligent error prevention and seamless transitions
+
+## Bug Fixes
+
+1. **Infinite Update Loop in Context Provider**
+   - What: Fixed an issue where a direct comparison of objects in the `useEffect` dependency array was causing an infinite update loop
+   - Why: Object comparison by reference instead of value was triggering continuous updates
+   - Fix: Implemented deep comparison using JSON.stringify for user objects and direct comparison for primitive values
+
+2. **Improved User Feedback**
+   - What: Replaced alert() with toast notifications in the UserForm component
+   - Why: Provide a more modern and non-blocking user feedback mechanism
+   - Improvement: Better user experience with less intrusive notifications
