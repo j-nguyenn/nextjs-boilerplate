@@ -1,19 +1,29 @@
-import React, { createContext, useContext, useReducer, ReactNode } from 'react';
+import React, { createContext, useContext, useReducer, ReactNode, useEffect } from 'react';
+import { useKV } from '@github/spark/hooks';
 
 // Define the shape of our state
+type AuthUser = {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+};
+
 type AppState = {
-  user: {
-    name: string;
-    role: string;
-  } | null;
+  user: AuthUser | null;
   theme: 'light' | 'dark';
   isLoading: boolean;
   error: string | null;
+  isAuthenticated: boolean;
+  authToken: string | null;
 };
 
 // Define actions for our reducer
 type Action = 
-  | { type: 'SET_USER'; payload: { name: string; role: string } }
+  | { type: 'LOGIN_SUCCESS'; payload: { user: AuthUser; token: string } }
+  | { type: 'REGISTER_SUCCESS'; payload: { user: AuthUser; token: string } }
+  | { type: 'LOGOUT' }
+  | { type: 'SET_USER'; payload: AuthUser }
   | { type: 'CLEAR_USER' }
   | { type: 'SET_THEME'; payload: 'light' | 'dark' }
   | { type: 'SET_LOADING'; payload: boolean }
@@ -25,11 +35,38 @@ const initialState: AppState = {
   theme: 'light',
   isLoading: false,
   error: null,
+  isAuthenticated: false,
+  authToken: null,
 };
 
 // Create the reducer function
 const appReducer = (state: AppState, action: Action): AppState => {
   switch (action.type) {
+    case 'LOGIN_SUCCESS':
+      return {
+        ...state,
+        user: action.payload.user,
+        isAuthenticated: true,
+        authToken: action.payload.token,
+        isLoading: false,
+        error: null,
+      };
+    case 'REGISTER_SUCCESS':
+      return {
+        ...state,
+        user: action.payload.user,
+        isAuthenticated: true,
+        authToken: action.payload.token,
+        isLoading: false,
+        error: null,
+      };
+    case 'LOGOUT':
+      return {
+        ...state,
+        user: null,
+        isAuthenticated: false,
+        authToken: null,
+      };
     case 'SET_USER':
       return {
         ...state,
@@ -40,6 +77,8 @@ const appReducer = (state: AppState, action: Action): AppState => {
       return {
         ...state,
         user: null,
+        isAuthenticated: false,
+        authToken: null,
       };
     case 'SET_THEME':
       return {
@@ -55,6 +94,7 @@ const appReducer = (state: AppState, action: Action): AppState => {
       return {
         ...state,
         error: action.payload,
+        isLoading: false,
       };
     default:
       return state;
@@ -75,7 +115,20 @@ type AppProviderProps = {
 };
 
 export const AppProvider = ({ children }: AppProviderProps) => {
-  const [state, dispatch] = useReducer(appReducer, initialState);
+  const [savedAuth, setSavedAuth] = useKV<{user: AuthUser | null, token: string | null}>("auth-data", { user: null, token: null });
+  const [state, dispatch] = useReducer(appReducer, {
+    ...initialState,
+    user: savedAuth.user,
+    isAuthenticated: !!savedAuth.token,
+    authToken: savedAuth.token,
+  });
+
+  // Save auth data to KV store when it changes
+  useEffect(() => {
+    if (state.user !== savedAuth.user || state.authToken !== savedAuth.token) {
+      setSavedAuth({ user: state.user, token: state.authToken });
+    }
+  }, [state.user, state.authToken, savedAuth, setSavedAuth]);
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>

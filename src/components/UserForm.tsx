@@ -45,7 +45,9 @@ export function UserForm() {
     dispatch({ 
       type: 'SET_USER', 
       payload: { 
-        name: values.name, 
+        id: Math.floor(Math.random() * 1000),
+        name: values.name,
+        email: values.email,
         role: values.role 
       } 
     });

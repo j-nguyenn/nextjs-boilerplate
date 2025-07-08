@@ -1,119 +1,106 @@
-# React Application Boilerplate PRD
+# Authentication Flow - Product Requirements Document
 
 ## Core Purpose & Success
-- **Mission Statement**: To provide a modern, fully-featured React application boilerplate with industry-standard libraries for efficient development.
-- **Success Indicators**: Easy setup, logical organization, comprehensive feature demonstration, and smooth developer experience.
-- **Experience Qualities**: Robust, Scalable, Maintainable.
+- **Mission Statement**: To provide a secure and user-friendly authentication system that enables users to register, login, and manage their account within the application.
+- **Success Indicators**: High conversion rate of visitors to registered users, low authentication error rates, and positive user feedback on ease of use.
+- **Experience Qualities**: Seamless, Secure, Trustworthy
 
 ## Project Classification & Approach
 - **Complexity Level**: Light Application (multiple features with basic state)
-- **Primary User Activity**: Creating (developers using this boilerplate as a starting point)
+- **Primary User Activity**: Acting (users are actively inputting information and interacting with the system)
 
 ## Thought Process for Feature Selection
-- **Core Problem Analysis**: Developers need a solid foundation that already includes common libraries and patterns to accelerate new project setup.
-- **User Context**: Developers will use this as a starting point for new React applications, referencing the implementation patterns for their own projects.
-- **Critical Path**: Code exploration → Understanding implementation patterns → Extending for specific needs
-- **Key Moments**: Form validation demonstration, Data fetching with Tanstack Query, Table rendering with Tanstack Table
+- **Core Problem Analysis**: Users need a secure way to access personalized features of the application.
+- **User Context**: Users will engage with authentication at the start of their journey and occasionally when their session expires.
+- **Critical Path**: User arrives → Registers/Logs in → Accesses personalized dashboard and features
+- **Key Moments**: 
+  1. First-time registration with email validation
+  2. Returning user login with proper credential validation
+  3. Password recovery flow for forgotten credentials
 
 ## Essential Features
-1. **Modern UI Components**
-   - What: Integration of shadcn component library
-   - Why: Provides accessible, customizable UI components
-   - Success: Components properly themed and demonstrated
+1. **User Registration**
+   - What: Allow new users to create an account by providing email, password, and basic information
+   - Why: Establish user identity and enable personalized experiences
+   - Success: User can successfully create an account and receive confirmation
 
-2. **Form Handling**
-   - What: react-hook-form with resolver for validation
-   - Why: Streamlined form state management and validation
-   - Success: Working form with validation example
+2. **User Login**
+   - What: Authenticate returning users with their credentials
+   - Why: Secure access to user-specific data and features
+   - Success: Existing users can seamlessly access their account
 
-3. **State Management**
-   - What: React Context API with useReducer pattern
-   - Why: Centralized state management without external libraries
-   - Success: Global state properly managed and demonstrated
-
-4. **Data Fetching**
-   - What: TanStack Query implementation
-   - Why: Efficient data fetching with caching and state management
-   - Success: API data fetching example that shows loading/error states
-
-5. **Table Rendering**
-   - What: TanStack Table implementation
-   - Why: Advanced table features including sorting, filtering
-   - Success: Working table with sample data
+3. **Password Reset**
+   - What: Allow users to reset forgotten passwords
+   - Why: Prevent account lockout and reduce support requests
+   - Success: Users can recover account access without manual intervention
 
 ## Design Direction
 
 ### Visual Tone & Identity
-- **Emotional Response**: Confidence, clarity, professionalism
-- **Design Personality**: Modern, clean, and professional
-- **Visual Metaphors**: Blueprint, foundation, structure
-- **Simplicity Spectrum**: Balanced - clean interface with rich functionality demonstrations
+- **Emotional Response**: Security, reliability, and professionalism
+- **Design Personality**: Clean, modern, and trustworthy
+- **Visual Metaphors**: Shield, lock, and key concepts for security elements
+- **Simplicity Spectrum**: Minimal interface to reduce cognitive load during the authentication process
 
 ### Color Strategy
-- **Color Scheme Type**: Monochromatic with accent
-- **Primary Color**: Deep blue (#0f172a) - communicates stability and professionalism
-- **Secondary Colors**: Lighter blues (#1e293b, #334155) - supporting primary color
-- **Accent Color**: Teal (#0d9488) - for CTAs and important elements
-- **Color Psychology**: Blues instill trust and competence, teal adds creativity and clarity
-- **Color Accessibility**: All color combinations meet WCAG AA standards
-- **Foreground/Background Pairings**:
-  - Background (#f8fafc) with Foreground (#0f172a) - High contrast for readability
-  - Card (#ffffff) with Card-foreground (#0f172a) - Clean reading experience
-  - Primary (#0f172a) with Primary-foreground (#ffffff) - Strong contrast for buttons
-  - Secondary (#1e293b) with Secondary-foreground (#ffffff) - Good contrast for secondary elements
-  - Accent (#0d9488) with Accent-foreground (#ffffff) - Distinctive for important elements
-  - Muted (#f1f5f9) with Muted-foreground (#64748b) - Subtle for less important text
+- **Color Scheme Type**: Monochromatic with accent colors for actions
+- **Primary Color**: The existing application's primary color for brand consistency
+- **Secondary Colors**: Neutral tones that complement the primary color
+- **Accent Color**: Blue tones to represent trust and security
+- **Color Psychology**: Blues and neutrals to convey security and professionalism
+- **Color Accessibility**: All text and UI elements maintain WCAG AA contrast ratios
+- **Foreground/Background Pairings**: Follow the existing application's theme colors
 
 ### Typography System
-- **Font Pairing Strategy**: Sans-serif for both headings and body for a clean, modern look
-- **Typographic Hierarchy**: Clear size distinction between h1-h6 and body text
-- **Font Personality**: Professional, clean, highly legible
-- **Readability Focus**: Generous line-height and max-width for text blocks
-- **Typography Consistency**: Standardized font sizes and weights throughout
-- **Which fonts**: Inter for both headings and body text
-- **Legibility Check**: Inter is highly legible at all sizes and weights
+- **Font Pairing Strategy**: Continue using Inter for both headings and body text
+- **Typographic Hierarchy**: Clear distinction between form labels, inputs, and helper text
+- **Font Personality**: Professional, clear, and highly readable
+- **Readability Focus**: Optimal line height and spacing for form fields and instructions
+- **Typography Consistency**: Maintain consistent sizing and weight across authentication forms
+- **Which fonts**: Inter (already implemented in the application)
+- **Legibility Check**: Inter is highly legible at various sizes and weights
 
 ### Visual Hierarchy & Layout
-- **Attention Direction**: Primary actions are emphasized with accent color
-- **White Space Philosophy**: Generous spacing for clarity and focus
-- **Grid System**: 12-column grid for layout flexibility
-- **Responsive Approach**: Mobile-first with breakpoint adjustments
-- **Content Density**: Moderate - balancing information with clarity
+- **Attention Direction**: Form fields and submission buttons are the primary focus
+- **White Space Philosophy**: Generous spacing between form elements to reduce visual clutter
+- **Grid System**: Single-column layout for forms with clear separation between sections
+- **Responsive Approach**: Forms adapt to screen sizes while maintaining readability
+- **Content Density**: Low density with focus on one task at a time
 
 ### Animations
-- **Purposeful Meaning**: Subtle animations for state changes and transitions
-- **Hierarchy of Movement**: Primary interactions receive more pronounced animations
-- **Contextual Appropriateness**: Animations are functional and enhance usability
+- **Purposeful Meaning**: Subtle transitions between authentication states
+- **Hierarchy of Movement**: Form submission feedback and validation states
+- **Contextual Appropriateness**: Minimal animations focused on feedback rather than decoration
 
 ### UI Elements & Component Selection
-- **Component Usage**: Cards for content grouping, Dialogs for modals, Forms for data entry
-- **Component Customization**: Tailwind customizations for brand colors
-- **Component States**: Clear visual feedback for hover, active, and disabled states
-- **Icon Selection**: Phosphor icons for consistent visual language
-- **Component Hierarchy**: Primary buttons use accent color, secondary buttons use lighter styling
-- **Spacing System**: Consistent 4px-based spacing scale
-- **Mobile Adaptation**: Stacked layouts on mobile, side-by-side on larger screens
+- **Component Usage**: Cards for form containers, inputs with clear validation states, buttons with distinct states
+- **Component Customization**: Utilize existing shadcn components with authentication-specific states
+- **Component States**: Clear visual feedback for form validation, loading states, and success/error conditions
+- **Icon Selection**: Lock, user, email, and status icons from Phosphor icon set
+- **Component Hierarchy**: Primary action buttons stand out visually from secondary actions
+- **Spacing System**: Consistent padding using the application's existing spacing scale
+- **Mobile Adaptation**: Stack elements vertically with full-width inputs on smaller screens
 
 ### Visual Consistency Framework
-- **Design System Approach**: Component-based design with shadcn
-- **Style Guide Elements**: Colors, typography, spacing, component usage
-- **Visual Rhythm**: Consistent spacing and alignment throughout
-- **Brand Alignment**: Professional appearance for developer tools
+- **Design System Approach**: Component-based design with shared authentication patterns
+- **Style Guide Elements**: Form layouts, button states, and error messaging
+- **Visual Rhythm**: Consistent spacing and alignment across all authentication interfaces
+- **Brand Alignment**: Authentication forms reflect the overall application's visual identity
 
 ### Accessibility & Readability
 - **Contrast Goal**: WCAG AA compliance for all text and UI elements
 
 ## Edge Cases & Problem Scenarios
-- **Potential Obstacles**: Complex form validation scenarios
-- **Edge Case Handling**: Form error states, loading states, empty data states
-- **Technical Constraints**: Client-side only (no server-side rendering as in true Next.js)
+- **Potential Obstacles**: Invalid email formats, weak passwords, account already exists
+- **Edge Case Handling**: Clear error messages and recovery paths for all validation failures
+- **Technical Constraints**: Simulating authentication in a client-side only environment
 
 ## Implementation Considerations
-- **Scalability Needs**: Structure should support adding more complex features
-- **Testing Focus**: Form validation, API integration
-- **Critical Questions**: How to best demonstrate library capabilities within a simplified app
+- **Scalability Needs**: Authentication system should be designed for future enhancements
+- **Testing Focus**: Validation logic, error states, and user flow between authentication steps
+- **Critical Questions**: How to securely store and manage authentication state in a client-side application?
 
 ## Reflection
-- This approach combines industry-standard libraries in a cohesive way that demonstrates best practices
-- We've assumed developers need comprehensive examples rather than minimal implementations
-- Making the boilerplate both educational and immediately useful would make it exceptional
+- The authentication flow provides a balance between security and usability
+- We've assumed users prioritize efficiency in the authentication process
+- Exceptional implementation would include intelligent error prevention and seamless transitions

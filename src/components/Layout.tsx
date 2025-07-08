@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { useAppContext } from "@/context/AppContext";
 import { Button } from "@/components/ui/button";
 import { User, SignOut } from "@phosphor-icons/react";
+import { toast } from "sonner";
 
 type LayoutProps = {
   children: ReactNode;
@@ -11,7 +12,14 @@ export function Layout({ children }: LayoutProps) {
   const { state, dispatch } = useAppContext();
 
   const handleLogout = () => {
-    dispatch({ type: 'CLEAR_USER' });
+    dispatch({ type: 'LOGOUT' });
+    toast.success("Logged out successfully");
+  };
+
+  const handleLogin = () => {
+    window.dispatchEvent(new CustomEvent('switch-auth-form', { detail: 'login' }));
+    // Update App.tsx tab to the auth tab
+    document.dispatchEvent(new CustomEvent('switch-tab', { detail: 'auth' }));
   };
 
   return (
@@ -23,7 +31,7 @@ export function Layout({ children }: LayoutProps) {
             <span className="font-bold text-lg">React App Boilerplate</span>
           </div>
           <div className="flex items-center space-x-4">
-            {state.user ? (
+            {state.isAuthenticated && state.user ? (
               <>
                 <div className="flex items-center space-x-2">
                   <User size={20} />
@@ -41,7 +49,7 @@ export function Layout({ children }: LayoutProps) {
                 </Button>
               </>
             ) : (
-              <Button variant="secondary" size="sm">
+              <Button variant="secondary" size="sm" onClick={handleLogin}>
                 <User className="mr-2 h-4 w-4" />
                 <span>Login</span>
               </Button>
