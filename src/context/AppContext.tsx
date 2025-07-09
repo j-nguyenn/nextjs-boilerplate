@@ -1,5 +1,4 @@
-import React, { createContext, useContext, useReducer, ReactNode, useEffect } from 'react';
-import { useKV } from '@github/spark/hooks';
+import React, { createContext, useContext, useReducer, ReactNode, useEffect, useState } from 'react';
 
 // Define the shape of our state
 type AuthUser = {
@@ -19,7 +18,7 @@ type AppState = {
 };
 
 // Define actions for our reducer
-type Action = 
+type Action =
   | { type: 'LOGIN_SUCCESS'; payload: { user: AuthUser; token: string } }
   | { type: 'REGISTER_SUCCESS'; payload: { user: AuthUser; token: string } }
   | { type: 'LOGOUT' }
@@ -115,7 +114,7 @@ type AppProviderProps = {
 };
 
 export const AppProvider = ({ children }: AppProviderProps) => {
-  const [savedAuth, setSavedAuth] = useKV<{user: AuthUser | null, token: string | null}>("auth-data", { user: null, token: null });
+  const [savedAuth, setSavedAuth] = useState<{ user: AuthUser | null, token: string | null }>("auth-data", { user: null, token: null });
   const [state, dispatch] = useReducer(appReducer, {
     ...initialState,
     user: savedAuth.user,
@@ -128,7 +127,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     // We need to do a deep comparison for the user object
     const userChanged = JSON.stringify(state.user) !== JSON.stringify(savedAuth.user);
     const tokenChanged = state.authToken !== savedAuth.token;
-    
+
     if (userChanged || tokenChanged) {
       setSavedAuth({ user: state.user, token: state.authToken });
     }
@@ -144,10 +143,10 @@ export const AppProvider = ({ children }: AppProviderProps) => {
 // Create hook for using the context
 export const useAppContext = () => {
   const context = useContext(AppContext);
-  
+
   if (context === undefined) {
     throw new Error('useAppContext must be used within an AppProvider');
   }
-  
+
   return context;
 };
